@@ -2,14 +2,29 @@ var express = require('express');
 
 var app = express();
 
-//this is used when we want to dynamically set port using the env variables 
+app.disable('x-powered-by');
+
+var handlebars = require('express-handlebars').create({defaultLayout:'main'});
+
+app.engine('handlebars', handlebars.engine);
+
+app.set('view engine', 'handlebars');
+
+//set middle wares(not ready yet)
+
+
 app.set('port', process.env.PORT || 3000);
 
-//nome route 
+app.use(express.static(__dirname + '/public'));
+
+
 app.get('/', function(req, res) {
-	res.send('Hello, World!');
+	res.render('home');	
 });
 
+app.get('/about', function(req, res){
+	res.render('about');
+});
 
 
 
